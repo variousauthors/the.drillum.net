@@ -15,6 +15,7 @@ group :production do
   gem 'google-analytics-rails'
 end
 
+gem 'uglifier'
 gem 'pg'
 gem 'heroku'
 gem 'haml-rails'
