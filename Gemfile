@@ -6,9 +6,10 @@ group :assets do
   gem 'marionette-rails'
 end
 
-group :development do
+group :development, :test do
   gem 'simplecov'
   gem 'jasmine'
+  gem 'rspec-rails'
 end
 
 group :production do
