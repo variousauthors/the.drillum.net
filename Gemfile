@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 group :assets do
   gem 'sass-rails'
-  gem 'backbone-rails'
-  gem 'marionette-rails'
 end
 
 group :development, :test do
@@ -16,6 +14,10 @@ group :production do
   gem 'google-analytics-rails'
 end
 
+gem 'marionette-rails'
+gem 'turbolinks'
+gem "jquery-rails"
+gem 'rails-backbone'
 gem 'uglifier'
 gem 'pg'
 gem 'heroku'
