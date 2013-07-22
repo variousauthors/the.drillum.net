@@ -1,0 +1,169 @@
+An index of the worlds in my imagination
+a todo list of sorts
+
+Elysian Coffee
+  - do the information architecture
+Builder World
+  - improve upon the wiki
+  - run it with James; host a wiki
+
+Foxhole
+  - finish the GLI (so close)
+  - add backing up of history
+MC Tourism - with Rails, zurb-foundation, and haml
+Nurbler extensions
+ - text flipper (flips text)
+ - ctrl-arrows or something to flip horizontal or vertical :)
+ - filters (HTML to HAML etc)
+Firefox homepage made of favicons
+ - remove favorites bar for more screen real-estate
+ - have all the favicons from your bookmarks
+ - maybe group them by folder into like... a cool grid?
+    - city streets?
+
+Tales of James - video games inspired by the James Mythos
+Lunatic Eve - Rokugan meets Kamigawa in my imagination
+
+QR-Code Battler
+  - The QR-Code determines the category of object you find
+  - Your current inventory and level determine the particulars
+  - Many codes that you find should be slightly beyond your ability,
+    the game should encourage you to return to places you've been
+  - Once you've gotten a code, the game should allow you to reuse
+    the code with diminishing returns, perhaps as monster battles
+    or healing
+  - Optionally, you can add QR-Codes you've already seen to a
+    QR-Cube, powerful objects that provide a continuous benefit, but
+    require the layering of many QR-Codes of the same size.
+  - Once you've added a QR-Code to a QR-Cube, you can never benefit
+    from that code again
+1-Dimensional Shadow Game
+  - The game opens with one of a number of interpretations,
+    in English.
+  - "I'm a girl, and I cast a shadow. But what if I was a
+    shadow, then what would I cast?"
+  - "Lines that are parallel meet at Infinity!" Euclid repeatedly,
+    heatedly, urged. Until he died, and so reached that vicinity: in
+    it he found that the damned things diverged.
+  - 1D folk are dots, and they are of a variety of skin tones.
+    - later when you find another line, the dudes are of a variety
+      of tones, but not the traditional skin tones. Some other rainbow
+      of skin.
+  - A 1D dude meditates and becomes capable of turning
+  - The dude perceives a line of the 2D world.
+  - The line sweeps under your control, like a radar/sonar
+  - The 2D objects you pass over leave brief shadows
+  - The music is made using the VI Hart 2D music machine
+     - or some procedural music generator
+  - The space between the lines is filled with a procedurally
+    generated space filling curve.
+      - The lines live in 'corridors' between the space filling
+        curves.
+      - The procedure that is generating these curves should
+        be computationally intense, and require the use of the
+        GPU. The point being, this game requires 3D acceleration.
+      - There should be bumps and ripples where the curve is not
+        perfect. In these places there are fields of colourful
+        2D objects.
+  - Maybe there are 2D beasts composed of many dots that move together
+    in a swarm (maybe that would be awesome)
+  - You gather dots from your homeline to come with you and explore
+     - they follow you around, providing their vision lines as long
+       as they are "with you". This represents communication.
+  - OK get this:
+    - instead of using English for dialog between the dots, we'll use
+      some symbols. Maybe brail that scrolls by, or maybe binary
+      sequences, or maybe sound-waves (and I kind of like that because
+      then these 1D folk are in some way already in touch with the 2D
+      world)
+    - when there are folk around, you get a dialog bar for each of them
+      sized to represent distance. The bars resize as you move about
+      relative to the folk until one dominates, or they are all too
+      far away.
+    - This also lets you know "oh I hear folk? There must be folk nearby"
+    - We can also have monsters or whatever phenomena (even some terrain
+      features) make noise.
+    - The folk are usually silent (maybe represented by all zeros, or a
+      line, or whatever silence is in brail) but when two folk are in
+      talking distance they chatter (procedurally generated conversation?
+      or maybe not, maybe just gibber jabber)
+  - Once the folk have been brought to a clearing, you can leave them there
+    and they arrange themselves into graphs, or something.
+
+VI Hart 2D music machine
+  - I don't know if anyone has made this already, but I must
+  - You put dots on a staff(sp), and then reflect and rotate
+    and loop or apply filters. etc
+Kingdom Animalia
+  - Focus on North America
+  - Use animals from Native American folk-lore
+  - The animals are used for a spiritual grid-control game
+    in which players control portions of north-america
+  - Many of the same animal contributes to your grid-control
+  - Animals have terrain types where they contribute best
+
+Game that continuously re-encrypts itself
+ - the more you succeed in the game, the game re-encrypts itself
+
+Arrogant Gamer
+  - Make it accessible to the non-sighted folk
+  - Embed text adventures in the about page
+
+Dyno
+ - In the vast desert of the mind there is an interment camp for psychs
+ - Escape from psych camp, cross the desert.
+
+Twine++
+ - A graphical story editor that outputs twine, but has:
+   - copy/paste of entire rooms or node structures
+   - non-grid based story graph
+     - eg the current node is fully expanded while the rest float nearby, collapsed
+   - cascading mechanism for DRYing up descriptions
+
+I'm Sorry, Pilot
+ - A mech game for the XBoxOne that focuses on Kinect based gameplay
+ - imagine Gasaraki but you are in your living room giving voice commands.
+ - The mech is far too complicated to control directly with a joystick; it
+    needs to be controlled with thought or speech, and it needs to learn to
+    be one with the pilot.
+ - Mech starts appologetic and bad, later it becomes the master
+ - questions of control emerge
+
+Social Media Agregator Game
+ - You play in a kingdom building things with coins, but the coins come
+    from your various social media channels
+
+Dragons' Song
+  I bring you the Ocean in my arms.
+  And hug you.
+  You know the wind is carrying us all the time.
+  Love is.
+  I'm laughing with you my brother.
+
+  - make a game about this
+
+Prototype
+ - A game that is released as a series of working prototypes.
+ - Each prototype is only available for a limited time.
+ - Each prototype contains information useful for playing the next
+ - Eventually, after people have played a bunch of them, announce that
+   you've dropped plans to continue development.
+ - After a few months, open source the game
+
+Regex Dungeon
+ - You are a regex engine:
+ - You receive a pattern, and then inputs.
+ - A millisecond timer is running, and you need to parse input into match data
+   quickly and accurately
+ - like Papers Please, but for regex
+ - too slow and your library falls out of use
+ - too inaccurate and you get a rep as buggy
+
+Regex Tower Defense
+ - A tower defense game in which you can cheaply buy towers that have specific
+   regexes
+ - you can upgrade them by making them more general
+ - they have a recharge time
+ - enemies are phrases that you can decompose with different regexes
+ - currency is match data?
+ - THEY MUST NOT REACH THE CORE
