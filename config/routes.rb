@@ -2,8 +2,22 @@ TheDrillumNet::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
+  # later I will need something like this for the resources
+  #
+  # MarionetteRails::Application.routes.draw do
+  #  resources :posts
+  # end
+
+  # BackboneRoutes.draw("pages#home") do
+  #  root to: 'index'
+  #  match 'index' => 'index'
+  #  match 'new' => 'new'
+  #  match ':id' => 'show'
+  #  match ':id/edit' => 'edit'
+  # end
+
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'pages#home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
