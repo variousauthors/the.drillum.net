@@ -150,7 +150,7 @@ Prototype
    you've dropped plans to continue development.
  - After a few months, open source the game
 
-Regex Dungeon
+Regex Engine (I, Oniguruma)
  - You are a regex engine:
  - You receive a pattern, and then inputs.
  - A millisecond timer is running, and you need to parse input into match data
@@ -167,3 +167,15 @@ Regex Tower Defense
  - enemies are phrases that you can decompose with different regexes
  - currency is match data?
  - THEY MUST NOT REACH THE CORE
+
+Leaderboard:
+ - a game that agregates various leaderboards and tracks your stats
+ - Can you be the best at being the best? How long can you stay the best best
+
+10,000 Ninjas:
+ - Super Meat Boy meets Mark of the Ninja
+ - see arrogantgamer.com
+
+Meat's Edge:
+ - Mirror's Edge meets Super Meat Boy
+ - see arrogantgamer.com
