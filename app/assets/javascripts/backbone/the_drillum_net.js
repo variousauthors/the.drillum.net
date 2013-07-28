@@ -1,4 +1,5 @@
 //= require_self
+//= require ./core_ext
 //= require_tree ./templates
 //= require_tree ./models
 //= require_tree ./views
@@ -14,9 +15,7 @@ MyApp.addRegions({
 
 // here we define the initializer for the app, later we will call it
 MyApp.addInitializer(function(options) {
-  var angryCatsView = new AngryCatsView({
-    collection: options.cats
-  });
+  var angryCatsView = new AngryCatsView({ });
 
   MyApp.mainRegion.show(angryCatsView);
 });

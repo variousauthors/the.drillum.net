@@ -19,4 +19,3 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require backbone/the_drillum_net
-//= require_tree .
