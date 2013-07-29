@@ -7,6 +7,7 @@
 
 // create a marionette app in the global namespace
 MyApp = new Backbone.Marionette.Application();
+MyApp.module("Models");
 
 // add the content div as a region our app will be aware of
 MyApp.addRegions({
@@ -15,11 +16,16 @@ MyApp.addRegions({
 
 // here we define the initializer for the app, later we will call it
 MyApp.addInitializer(function(options) {
-  var angryCatsView = new AngryCatsView({ });
+  console.log(options);
+  // var graph = new CanvasView({ collection: options.verts });
 
-  MyApp.mainRegion.show(angryCatsView);
+  // MyApp.mainRegion.show(graph);
 });
 
 $(document).ready(function() {
-  MyApp.start();
+  var verts = new MyApp.Models.Graph([
+    new MyApp.Models.Vertex({ x: 1, y: 2})
+  ]);
+
+  MyApp.start({ verts: verts });
 });

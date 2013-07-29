@@ -1,0 +1,9 @@
+//= require ./vertex
+
+MyApp.Models.Graph = Backbone.Collection.extend({
+  model: MyApp.Models.Vertex,
+  initialize: function(options) {
+    console.log("Graph");
+    console.log(options);
+  }
+});
