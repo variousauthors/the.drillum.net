@@ -21,15 +21,13 @@ MyApp.addInitializer(function(options) {
     collection: options.graph
   });
 
-  console.log(options.graph);
-  console.log(canvas_view);
   MyApp.mainRegion.show(canvas_view);
 });
 
 $(document).ready(function() {
   var graph = new MyApp.Models.Graph([
-    new MyApp.Models.Vertex({ x: 1, y: 2}),
-    new MyApp.Models.Vertex({ x: 1, y: 2})
+    new MyApp.Models.Vertex({ x: 50, y: 50}),
+    new MyApp.Models.Vertex({ x: 100, y: 100})
   ]);
 
   MyApp.start({ graph: graph });

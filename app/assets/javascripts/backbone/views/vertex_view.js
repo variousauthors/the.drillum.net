@@ -7,11 +7,31 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     'width': '500px'
   },
 
-  render: function() {
+  radius: 10,
+
+  render: function(){
     console.log("render");
-    console.log(this.el);
+    this.isClosed = false;
+
+    this.triggerMethod("before:render", this);
+    this.triggerMethod("item:before:render", this);
+
+    var data = this.serializeData();
+    data = this.mixinTemplateHelpers(data);
+
+    this.draw(data);
+
+    this.triggerMethod("render", this);
+    this.triggerMethod("item:rendered", this);
+
+    return this;
+  },
+
+  draw: function(data) {
+    console.log(data);
     var context = this.el.getContext('2d');
-    context.fillStyle = '#000';
-    context.fillText("wow", 50, 50);
+    context.beginPath();
+    context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);
+    context.stroke();
   }
 });
