@@ -74,6 +74,7 @@ GEM
       thor (>= 0.14, < 2.0)
     launchy (2.3.0)
       addressable (~> 2.3)
+    libv8 (3.11.8.17)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -107,6 +108,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.1.0)
+    ref (1.0.5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.14.1)
@@ -148,6 +150,9 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    therubyracer (0.11.4)
+      libv8 (~> 3.11.8.12)
+      ref
     thor (0.18.1)
     thread_safe (0.1.0)
       atomic
@@ -179,5 +184,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   simplecov
+  therubyracer
   turbolinks
   uglifier

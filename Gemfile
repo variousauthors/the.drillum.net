@@ -23,3 +23,8 @@ gem 'pg'
 gem 'heroku'
 gem 'haml-rails'
 gem 'rails'
+
+# it appears that we need a javascript runtime
+# so that the asset pipeline can do its thing
+# I'd rather use nodejs, but its not a gem :)
+gem 'therubyracer'
