@@ -15,7 +15,7 @@ MyApp.addRegions({
   mainRegion: "#content"
 });
 
-// here we define the initializer for the app, later we will call it
+/* setup the Canvas view with graph */
 MyApp.addInitializer(function(options) {
   var canvas_view = new MyApp.Views.CanvasView({
     collection: options.graph

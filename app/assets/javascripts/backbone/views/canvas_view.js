@@ -4,30 +4,37 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   template: 'backbone/templates/canvas_view',
   className: 'canvas-container',
   itemView: MyApp.Views.VertexView,
-
-  render: function(){
-    this.isRendered = true;
-    this.isClosed = false;
-    this.resetItemViewContainer();
-
-    this.triggerBeforeRender();
-    var html = this.renderModel();
-    this.$el.html(html);
-
-    this.bindUIElements();
-    this.triggerMethod("composite:model:rendered");
-
-    this._renderChildren();
-
-    this.triggerMethod("composite:rendered");
-    this.triggerRendered();
-    return this;
-  },
+  height: 500,
+  width: 500,
 
   appendHtml: function(collectionView, itemView) {
+    console.log("CanvasView->appendHtml");
     var context = collectionView.$('canvas').get(0).getContext('2d');
     context.fillStyle = 'black';
-    context.fillText("yeah", 50, 50);
-    context.drawImage(itemView.el, 100, 100);
+    context.drawImage(itemView.el, 0, 0); // draw relative to origin
+  },
+
+  onRender: function() {
+    console.log("CanvasView->onRender");
+  },
+
+  onAfterItemAdded: function() {
+    console.log("CanvasView->onAfterItemAdded");
+  },
+
+  events: {
+    'click button': 'addVertex'
+  },
+
+  addVertex: function(e) {
+    console.log("CanvasView->addVertex");
+    // coordinates from 10 to 490
+    var max_x = this.width - 10;
+    var max_y = this.height - 10;
+    var min_x = 10;
+    var min_y = 10;
+    var x = Math.random() * (max_x - min_x) + min_x;
+    var y = Math.random() * (max_y - min_y) + min_y;
+    this.collection.add(new MyApp.Models.Vertex({ 'x': x, 'y': y}));
   }
 });

@@ -9,22 +9,11 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
 
   radius: 10,
 
-  render: function(){
-    console.log("render");
-    this.isClosed = false;
-
-    this.triggerMethod("before:render", this);
-    this.triggerMethod("item:before:render", this);
-
+  onRender: function(){
+    console.log("VertexView->onRender");
     var data = this.serializeData();
-    data = this.mixinTemplateHelpers(data);
 
-    this.draw(data);
-
-    this.triggerMethod("render", this);
-    this.triggerMethod("item:rendered", this);
-
-    return this;
+    this.draw(data); // my code
   },
 
   draw: function(data) {
