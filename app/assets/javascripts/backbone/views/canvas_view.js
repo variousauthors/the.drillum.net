@@ -1,11 +1,27 @@
 //= require ./vertex_view
 
+// TODO this is really a GraphView mixed with a CanvasView
+// needs to split them out
 MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   template: 'backbone/templates/canvas_view',
   className: 'canvas-container',
   itemView: MyApp.Views.VertexView,
   height: 500,
   width: 500,
+
+  initialize: function() {
+    var self = this;
+    console.log("CanvasView->initialize");
+
+    // TODO override add on the Graph so that it walks the given
+    // vertex, adding all its neighbours
+    var closure = function(vertex) {
+      self.collection.add(vertex);
+    }
+
+    // ensure that all the vertices are in the collection
+    self.collection.walk(closure);
+  },
 
   appendHtml: function(collectionView, itemView) {
     console.log("CanvasView->appendHtml");
@@ -26,6 +42,8 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
     'click button': 'addVertex'
   },
 
+  // TODO NEXTSTEP now we need a way to add to the "end" of the
+  // graph... a "current node"
   addVertex: function(e) {
     console.log("CanvasView->addVertex");
     // coordinates from 10 to 490

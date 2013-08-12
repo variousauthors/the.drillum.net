@@ -25,10 +25,27 @@ MyApp.addInitializer(function(options) {
 });
 
 $(document).ready(function() {
-  var graph = new MyApp.Models.Graph([
-    new MyApp.Models.Vertex({ x: 50, y: 50}),
-    new MyApp.Models.Vertex({ x: 100, y: 100})
-  ]);
+  /* vertices created one at a time */
+  var A = new MyApp.Models.Vertex({x:15, y:15});
+  var B = new MyApp.Models.Vertex({x:30, y:30});
+  var C = new MyApp.Models.Vertex({x:45, y:45});
+  var D = new MyApp.Models.Vertex({x:120, y:120});
+  A.addEdge(B).addEdge(C.addEdge(D.addEdge(A))); // nested edge A->C->D
+
+  /* or in bulk */
+  var E = new MyApp.Models.Vertex({ x:60, y:60, edges: [
+    new MyApp.Models.Vertex({x:75, y:75}),
+    new MyApp.Models.Vertex({x:90, y:90}),
+    new MyApp.Models.Vertex({x:105, y:105}),
+    B
+  ]});
+
+  /* we could also say Graph([A, B, C, D, E]),
+  * and redundant edges would not be included
+  * note also: D is nested in A->C->D
+  * and: B is a duplicate
+  * but the result will be a set of vertices */
+  var graph = new MyApp.Models.Graph([A, E]);
 
   MyApp.start({ graph: graph });
 });

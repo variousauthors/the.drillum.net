@@ -17,6 +17,7 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   },
 
   draw: function(data) {
+    console.log("VertexView->draw");
     console.log(data);
     var context = this.el.getContext('2d');
     context.beginPath();
