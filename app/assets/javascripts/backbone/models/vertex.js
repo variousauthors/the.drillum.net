@@ -17,11 +17,11 @@
 * */
 MyApp.Models.Vertex = Backbone.Model.extend({
   initialize: function(params) {
-    var self = this;
     console.log("Vertex->initialize");
-    self._terminal_vertices = [];
-    self._marked = false;
+    this._terminal_vertices = [];
+    this._marked = false;
 
+    var self = this;
     _.forEach(params['edges'], function(terminal_vertex) {
       self.addEdge(terminal_vertex);
     })
@@ -35,7 +35,7 @@ MyApp.Models.Vertex = Backbone.Model.extend({
     this._mark = false;
   },
 
-  getEdges: function() {
+  getNeighbours: function() {
     return this._terminal_vertices;
   },
 
@@ -43,11 +43,24 @@ MyApp.Models.Vertex = Backbone.Model.extend({
     return !this._mark;
   },
 
+  isEqual: function(b) {
+    var a = this;
+    if (a.get('x') === b.get('x') && a.get('y') === b.get('y')) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
   /* add an edge to the edge list with idempotence
   *  @param A Vertex */
   addEdge: function(terminal_vertex) {
     // edges must be unique per Vertex
-    if (_.contains(this.getEdges(), terminal_vertex)) {
+    var duplicate = _.any(this.getNeighbours(), function(vertex) {
+      return vertex.isEqual(terminal_vertex);
+    });
+
+    if (duplicate) {
       return this;
     }
 

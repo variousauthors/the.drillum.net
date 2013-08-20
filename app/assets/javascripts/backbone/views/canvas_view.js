@@ -13,19 +13,12 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
     var self = this;
     console.log("CanvasView->initialize");
 
-    // TODO override add on the Graph so that it walks the given
-    // vertex, adding all its neighbours
-    var closure = function(vertex) {
-      self.collection.add(vertex);
-    }
-
-    // ensure that all the vertices are in the collection
-    self.collection.walk(closure);
   },
 
   appendHtml: function(collectionView, itemView) {
     console.log("CanvasView->appendHtml");
     var context = collectionView.$('canvas').get(0).getContext('2d');
+    console.log(collectionView.collection.getEdges());
     context.fillStyle = 'black';
     context.drawImage(itemView.el, 0, 0); // draw relative to origin
   },

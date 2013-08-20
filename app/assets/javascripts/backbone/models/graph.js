@@ -2,11 +2,14 @@
 
 // TODO override add on the Graph so that it walks the given
 // vertex, adding all its neighbours
+//
 MyApp.Models.Graph = Backbone.Collection.extend({
   model: MyApp.Models.Vertex,
-  initialize: function(vertices) {
-    var self = this;
-    console.log("Graph->initialize");
+
+  /* collect flattens the Graph and populates a straight collection */
+  collect: function() {
+    var nop = function(vertex) { return vertex; }
+    this.walk(nop);
   },
 
   walk: function(work) {
@@ -18,33 +21,44 @@ MyApp.Models.Graph = Backbone.Collection.extend({
 
     while(queue.length > 0) {
       var vertex = queue.shift();
-      var edges = vertex.getEdges();
-      var edge;
+      var neighbours = vertex.getNeighbours();
+      var neighbour;
 
-      work(vertex); // do the work
+      vertex = work(vertex); // do the work
+      vertex.setMark();
+      this.add(vertex); // add the worked on vertex back in
 
-      while(edges.length > 0) {
-        edge = edges.pop();
+      while(neighbours.length > 0) {
+        neighbour = neighbours.pop();
 
-        if (edge.isUnmarked()) {
-          edge.setMark();
-          queue.push(edge);
+        if (neighbour.isUnmarked()) {
+          neighbour.setMark();
+          queue.push(neighbour);
         }
       }
     }
+
+    this.clearMarked();
   },
 
   /* fill an array with the edges of the graph */
   getEdges: function() {
+    console.log("Graph->getEdges");
     var edges = [];
 
-    this.each(function(index, vertex) {
+    this.each(function(vertex, index) {
+      var neighbours = [];
+      neighbours = vertex.getNeighbours();
+
       vertex.setMark();
-      vertex.getEdges().each(function(index, terminal_vertex) {
+
+      _.each(neighbours, function(terminal_vertex, index) {
         if (terminal_vertex.isUnmarked()) {
-          result.push(new Line(vertex, terminal_vertex));
+          edges.push([vertex, terminal_vertex]);
         }
-      })
+      });
+
+      return edges;
     })
 
     this.clearMarked();
@@ -53,7 +67,7 @@ MyApp.Models.Graph = Backbone.Collection.extend({
   },
 
   clearMarked: function() {
-    this.each(function(index, vertex) {
+    this.each(function(vertex, index) {
       vertex.clearMark();
     })
   }
