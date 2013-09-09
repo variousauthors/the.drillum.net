@@ -69,7 +69,7 @@ $(document).ready(function() {
   * note also: D is nested in A->C->D
   * and: B is a duplicate
   * but the result will be a set of vertices */
-  var graph = new MyApp.Models.Graph([A, E]);
+  var graph = new MyApp.Models.Graph([A, D]);
   graph.collect();
 
   MyApp.start({ graph: graph });

@@ -22,6 +22,7 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     var context = this.el.getContext('2d');
     context.beginPath();
     context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);
+    context.lineTo(data.x, data.y, 10, 20);
     context.stroke();
   }
 });
