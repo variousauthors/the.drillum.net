@@ -40,30 +40,22 @@ $(document).ready(function() {
 //  B
 //]});
 
-  var A = new MyApp.Models.Vertex({x:15, y:15});
-  var B = new MyApp.Models.Vertex({x:30, y:30});
-  var C = new MyApp.Models.Vertex({x:45, y:45});
+  var A = new MyApp.Models.Vertex({x:15, y:30, edges: []});
+  var B = new MyApp.Models.Vertex({x:15, y:30, edges: []});
+  var C = new MyApp.Models.Vertex({x:45, y:100, edges: []});
   A.addEdge(B);
   A.addEdge(B);
   A.addEdge(C);
 
-  console.log("#############################");
+  console.log("after add");
   console.log(A.getNeighbours());
-  console.log("#############################");
-  console.log(A.getNeighbours()[0].getNeighbours());
-  console.log("#############################");
 
-  var D = new MyApp.Models.Vertex({ x:60, y:60, edges: [
-    new MyApp.Models.Vertex({x:75, y:75}),
-    new MyApp.Models.Vertex({x:75, y:75}),
-    new MyApp.Models.Vertex({x:90, y:90})
+  var D = new MyApp.Models.Vertex({ x:90, y:60, edges: [
+    new MyApp.Models.Vertex({x:75, y:10}),
+    new MyApp.Models.Vertex({x:10, y:75}),
+    new MyApp.Models.Vertex({x:90, y:150})
   ]});
 
-  console.log("#############################");
-  console.log(D.getNeighbours());
-  console.log("#############################");
-  console.log(D.getNeighbours()[0].getNeighbours());
-  console.log("#############################");
   /* we could also say Graph([A, B, C, D, E]),
   * and redundant edges would not be included
   * note also: D is nested in A->C->D

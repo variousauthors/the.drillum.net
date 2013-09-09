@@ -18,13 +18,24 @@
 MyApp.Models.Vertex = Backbone.Model.extend({
   initialize: function(params) {
     console.log("Vertex->initialize");
+
     this._terminal_vertices = [];
     this._marked = false;
+    params['foo'] = 'bar';
+
+    if (params['edges'] === undefined) {
+      params['edges'] = [];
+    }
+
+    console.log(this);
 
     var self = this;
     _.forEach(params['edges'], function(terminal_vertex) {
       self.addEdge(terminal_vertex);
     })
+
+    console.log(this._terminal_vertices.length);
+    console.log(params['edges'].length)
   },
 
   setMark: function() {
@@ -55,6 +66,7 @@ MyApp.Models.Vertex = Backbone.Model.extend({
   /* add an edge to the edge list with idempotence
   *  @param A Vertex */
   addEdge: function(terminal_vertex) {
+    console.log("vertex-->addEdge");
     // edges must be unique per Vertex
     var duplicate = _.any(this.getNeighbours(), function(vertex) {
       return vertex.isEqual(terminal_vertex);
@@ -65,6 +77,7 @@ MyApp.Models.Vertex = Backbone.Model.extend({
     }
 
     this._terminal_vertices.push(terminal_vertex);
+    this.get('edges').push(terminal_vertex);
 
     return this;
   }

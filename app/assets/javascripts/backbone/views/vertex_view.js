@@ -18,11 +18,14 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
 
   draw: function(data) {
     console.log("VertexView->draw");
-    console.log(data);
     var context = this.el.getContext('2d');
+    console.log(data);
     context.beginPath();
     context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);
-    context.lineTo(data.x, data.y, 10, 20);
+    _.each(data.edges, function(element, index) {
+      context.moveTo(data.x, data.y);
+      context.lineTo(element.get('x'), element.get('y'));
+    });
     context.stroke();
   }
 });

@@ -18,7 +18,6 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   appendHtml: function(collectionView, itemView) {
     console.log("CanvasView->appendHtml");
     var context = collectionView.$('canvas').get(0).getContext('2d');
-    console.log(collectionView.collection.getEdges());
     context.fillStyle = 'black';
     context.drawImage(itemView.el, 0, 0); // draw relative to origin
   },
