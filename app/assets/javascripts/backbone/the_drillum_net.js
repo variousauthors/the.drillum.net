@@ -40,8 +40,8 @@ $(document).ready(function() {
 //  B
 //]});
 
-  var A = new MyApp.Models.Vertex({x:15, y:30, edges: []});
-  var B = new MyApp.Models.Vertex({x:15, y:30, edges: []});
+  var A = new MyApp.Models.Vertex({x:15, y:30, color: 'red', edges: []});
+  var B = new MyApp.Models.Vertex({x:15, y:30, color: 'blue', edges: []});
   var C = new MyApp.Models.Vertex({x:45, y:100, edges: []});
   A.addEdge(B);
   A.addEdge(B);
@@ -59,7 +59,7 @@ $(document).ready(function() {
   * and: B is a duplicate
   * but the result will be a set of vertices */
   var graph = new MyApp.Models.Graph([A, D]);
-  graph.collect();
+  graph.setup();
 
   MyApp.start({ graph: graph });
 });

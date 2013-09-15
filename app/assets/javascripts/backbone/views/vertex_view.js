@@ -23,6 +23,9 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     console.log(data);
     context.beginPath();
     context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);
+    context.fillStyle = data.color;
+    context.fill();
+    context.fillStyle = 'black';
     _.each(data.edges, function(element, index) {
       context.moveTo(data.x, data.y);
       context.lineTo(element.get('x'), element.get('y'));

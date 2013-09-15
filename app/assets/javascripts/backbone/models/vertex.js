@@ -16,11 +16,17 @@
 *
 * */
 MyApp.Models.Vertex = Backbone.Model.extend({
+  defaults: {
+    'x': 0,
+    'y': 0,
+    'color': 'black',
+    'edges': [],
+  },
+
   initialize: function(params) {
     console.log("Vertex->initialize");
 
     this._marked = false;
-    this.set('edges', []);
 
     var self = this;
     _.inject(params['edges'], function(memo, terminal_vertex) {

@@ -28,6 +28,7 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
 
   onAfterItemAdded: function() {
     console.log("CanvasView->onAfterItemAdded");
+    this.collection.update_color_wheel();
   },
 
   events: {
