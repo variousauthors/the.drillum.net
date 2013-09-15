@@ -14,6 +14,7 @@ MyApp.Models.Graph = Backbone.Collection.extend({
 
   walk: function(work) {
     var queue = []; // going to use an array now, and then implement it later
+
     // fill the queue, empty the collection
     while(this.length > 0) {
       queue.push(this.pop());
@@ -28,14 +29,12 @@ MyApp.Models.Graph = Backbone.Collection.extend({
       vertex.setMark();
       this.add(vertex); // add the worked on vertex back in
 
-      while(neighbours.length > 0) {
-        neighbour = neighbours.pop();
-
+      _.each(neighbours, function(neighbour) {
         if (neighbour.isUnmarked()) {
           neighbour.setMark();
           queue.push(neighbour);
         }
-      }
+      });
     }
 
     this.clearMarked();

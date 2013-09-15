@@ -11,6 +11,7 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
 
   onRender: function(){
     console.log("VertexView->onRender");
+    console.log(this);
     var data = this.serializeData();
 
     this.draw(data); // my code

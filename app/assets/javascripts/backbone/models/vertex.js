@@ -19,23 +19,25 @@ MyApp.Models.Vertex = Backbone.Model.extend({
   initialize: function(params) {
     console.log("Vertex->initialize");
 
-    this._terminal_vertices = [];
     this._marked = false;
-    params['foo'] = 'bar';
-
-    if (params['edges'] === undefined) {
-      params['edges'] = [];
-    }
-
-    console.log(this);
+    this.set('edges', []);
 
     var self = this;
-    _.forEach(params['edges'], function(terminal_vertex) {
-      self.addEdge(terminal_vertex);
-    })
+    _.inject(params['edges'], function(memo, terminal_vertex) {
+      var unique = true; // assume the vertex is unique
 
-    console.log(this._terminal_vertices.length);
-    console.log(params['edges'].length)
+      _.every(memo, function(element) { // show it is not
+        unique = (element.isEqual(terminal_vertex))? false : unique;
+        return unique;
+      });
+
+      if (unique) {
+        self.addEdge(terminal_vertex);
+      }
+
+      memo.push(terminal_vertex);
+      return memo;
+    }, []);
   },
 
   setMark: function() {
@@ -47,7 +49,7 @@ MyApp.Models.Vertex = Backbone.Model.extend({
   },
 
   getNeighbours: function() {
-    return this._terminal_vertices;
+    return _.clone(this.get('edges')) || [];
   },
 
   isUnmarked: function() {
@@ -72,13 +74,10 @@ MyApp.Models.Vertex = Backbone.Model.extend({
       return vertex.isEqual(terminal_vertex);
     });
 
-    if (duplicate) {
-      return this;
+    if (!duplicate) {
+      this.get('edges').push(terminal_vertex);
     }
 
-    this._terminal_vertices.push(terminal_vertex);
-    this.get('edges').push(terminal_vertex);
-
-    return this;
+    return this; // for chaining
   }
 });

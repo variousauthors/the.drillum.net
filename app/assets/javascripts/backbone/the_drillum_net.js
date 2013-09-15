@@ -47,9 +47,6 @@ $(document).ready(function() {
   A.addEdge(B);
   A.addEdge(C);
 
-  console.log("after add");
-  console.log(A.getNeighbours());
-
   var D = new MyApp.Models.Vertex({ x:90, y:60, edges: [
     new MyApp.Models.Vertex({x:75, y:10}),
     new MyApp.Models.Vertex({x:10, y:75}),
