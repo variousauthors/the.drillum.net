@@ -60,18 +60,8 @@ $(document).ready(function() {
   * but the result will be a set of vertices */
   var graph = new MyApp.Models.Graph([A, D]);
 
-  /* since the views aren't set up yet we must listen */
-  MyApp.listenTo(graph, 'remove', function(model, collection) {
-    collection.decrement_color_wheel();
-  });
-
-  MyApp.listenTo(graph, 'add', function(model, collection) {
-    collection.increment_color_wheel();
-  });
-
   graph.setup();
 
   /* after this point it is the view that listens */
-  MyApp.stopListening();
   MyApp.start({ graph: graph });
 });

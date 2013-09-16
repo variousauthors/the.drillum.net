@@ -1,4 +1,5 @@
 //= require ./vertex_view
+//= require ./../models/color_wheel
 
 // TODO this is really a GraphView mixed with a CanvasView
 // needs to split them out
@@ -8,11 +9,13 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   itemView: MyApp.Views.VertexView,
   height: 500,
   width: 500,
+  color_wheel: {},
 
   initialize: function() {
     var self = this;
+    this.color_wheel = new MyApp.Models.ColorWheel({ length: 0 });
+    this.color_wheel.setup();
     console.log("CanvasView->initialize");
-
   },
 
   appendHtml: function(collectionView, itemView) {
@@ -27,14 +30,14 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
     console.log("CanvasView->onRender");
   },
 
-  onAfterItemAdded: function() {
+  onBeforeItemAdded: function(itemView) {
     console.log("CanvasView->onAfterItemAdded");
-    this.collection.increment_color_wheel();
+    this.color_wheel.increment();
+    itemView.model.set('color', this.color_wheel.color()); // returns a random color
   },
 
   onItemRemoved: function() {
     console.log("CanvasView->onItemRemoved");
-    this.collection.decrement_color_wheel();
   },
 
   events: {

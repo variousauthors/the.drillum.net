@@ -1,5 +1,4 @@
 //= require ./vertex
-//= require ./color_wheel
 
 // TODO override add on the Graph so that it walks the given
 // vertex, adding all its neighbours
@@ -7,33 +6,15 @@
 MyApp.Models.Graph = Backbone.Collection.extend({
   model: MyApp.Models.Vertex,
 
-  initialize: function() {
-    this._color_wheel = {};
-  },
-
   /* setup flattens the Graph and populates a straight collection
   *  counts the nodes and chooses an appropriate colorwheel
   *  assigns each node a colour */
   setup: function() {
-    this._color_wheel = new MyApp.Models.ColorWheel({ length: 3 });
-    this._color_wheel.setup();
-
     var self = this;
     var nop = function(vertex) {
-      vertex.set('color', self._color_wheel.color()); // returns a random color
       return vertex;
     }
     this.walk(nop);
-  },
-
-  increment_color_wheel: function() {
-    console.log("EVENT Graph-->update_color_wheel")
-    this._color_wheel.increment();
-  },
-
-  decrement_color_wheel: function() {
-    console.log("EVENT Graph-->update_color_wheel")
-    this._color_wheel.decrement();
   },
 
   walk: function(work) {

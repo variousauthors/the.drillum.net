@@ -37,6 +37,8 @@ MyApp.Models.ColorWheel = Backbone.Collection.extend({
 
   increment: function(color) {
     console.log("ColorWheel-->increment");
+    this.add(new MyApp.Models.Color());
+    this._spectrum = this.length;
   },
 
   decrement: function(color) {
