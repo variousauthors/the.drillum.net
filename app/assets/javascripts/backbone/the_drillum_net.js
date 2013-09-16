@@ -17,6 +17,7 @@ MyApp.addRegions({
 
 /* setup the Canvas view with graph */
 MyApp.addInitializer(function(options) {
+  console.log("== MyApp-->initializer ==");
   var canvas_view = new MyApp.Views.CanvasView({
     collection: options.graph
   });
@@ -39,7 +40,6 @@ $(document).ready(function() {
 //  new MyApp.Models.Vertex({x:105, y:105}),
 //  B
 //]});
-
   var A = new MyApp.Models.Vertex({x:15, y:30, color: 'red', edges: []});
   var B = new MyApp.Models.Vertex({x:15, y:30, color: 'blue', edges: []});
   var C = new MyApp.Models.Vertex({x:45, y:100, edges: []});
@@ -59,7 +59,19 @@ $(document).ready(function() {
   * and: B is a duplicate
   * but the result will be a set of vertices */
   var graph = new MyApp.Models.Graph([A, D]);
+
+  /* since the views aren't set up yet we must listen */
+  MyApp.listenTo(graph, 'remove', function(model, collection) {
+    collection.decrement_color_wheel();
+  });
+
+  MyApp.listenTo(graph, 'add', function(model, collection) {
+    collection.increment_color_wheel();
+  });
+
   graph.setup();
 
+  /* after this point it is the view that listens */
+  MyApp.stopListening();
   MyApp.start({ graph: graph });
 });

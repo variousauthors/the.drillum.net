@@ -20,6 +20,7 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
     var context = collectionView.$('canvas').get(0).getContext('2d');
     context.fillStyle = 'black';
     context.drawImage(itemView.el, 0, 0); // draw relative to origin
+    console.log("out CanvasView->appendHtml");
   },
 
   onRender: function() {
@@ -28,7 +29,12 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
 
   onAfterItemAdded: function() {
     console.log("CanvasView->onAfterItemAdded");
-    this.collection.update_color_wheel();
+    this.collection.increment_color_wheel();
+  },
+
+  onItemRemoved: function() {
+    console.log("CanvasView->onItemRemoved");
+    this.collection.decrement_color_wheel();
   },
 
   events: {

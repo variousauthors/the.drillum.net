@@ -31,8 +31,17 @@ MyApp.Models.ColorWheel = Backbone.Collection.extend({
     console.log(this.length);
   },
 
-  next: function(color) { },
-  expand: function(color) { },
+  next: function(color) {
+    console.log("ColorWheel-->expand");
+  },
+
+  increment: function(color) {
+    console.log("ColorWheel-->increment");
+  },
+
+  decrement: function(color) {
+    console.log("ColorWheel-->decrement");
+  },
 
   /* get a random colour from the wheel */
   color: function() {

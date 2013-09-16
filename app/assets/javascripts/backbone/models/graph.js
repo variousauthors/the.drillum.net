@@ -26,9 +26,14 @@ MyApp.Models.Graph = Backbone.Collection.extend({
     this.walk(nop);
   },
 
-  update_color_wheel: function() {
+  increment_color_wheel: function() {
     console.log("EVENT Graph-->update_color_wheel")
-    this._color_wheel.expand();
+    this._color_wheel.increment();
+  },
+
+  decrement_color_wheel: function() {
+    console.log("EVENT Graph-->update_color_wheel")
+    this._color_wheel.decrement();
   },
 
   walk: function(work) {
@@ -89,4 +94,4 @@ MyApp.Models.Graph = Backbone.Collection.extend({
       vertex.clearMark();
     })
   }
-});
+})

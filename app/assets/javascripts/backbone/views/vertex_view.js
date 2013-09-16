@@ -11,7 +11,6 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
 
   onRender: function(){
     console.log("VertexView->onRender");
-    console.log(this);
     var data = this.serializeData();
 
     this.draw(data); // my code
@@ -20,7 +19,6 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   draw: function(data) {
     console.log("VertexView->draw");
     var context = this.el.getContext('2d');
-    console.log(data);
     context.beginPath();
     context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);
     context.fillStyle = data.color;

@@ -19,7 +19,7 @@ MyApp.Models.Vertex = Backbone.Model.extend({
   defaults: {
     'x': 0,
     'y': 0,
-    'color': 'black',
+    'color': 'black', // a string maintaining a colour
     'edges': [],
   },
 
