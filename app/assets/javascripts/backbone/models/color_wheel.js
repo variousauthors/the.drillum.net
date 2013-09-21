@@ -34,8 +34,17 @@ MyApp.Models.ColorWheel = Backbone.Collection.extend({
   },
 
   /* get the colour after the given colour in the wheel */
-  next: function(color) {
+  next: function(color_name) {
     console.log("ColorWheel-->next");
+    console.log(this);
+
+    var match = this.find(function(color) {
+      return (color.get('color') == color_name);
+    });
+
+    var index = this.indexOf(match);
+    var result = this.at((index + 1) % this.length);
+    return result.get('color');
   },
 
   /* add a new colour to the wheel */

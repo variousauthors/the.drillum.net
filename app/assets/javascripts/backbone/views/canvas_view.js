@@ -28,11 +28,21 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
     console.log("CanvasView->appendHtml");
     var context = collectionView.$('canvas').get(0).getContext('2d');
     context.fillStyle = 'black';
-    context.drawImage(itemView.el, 0, 0); // draw relative to origin
-  },
 
-  onRender: function() {
-    console.log("CanvasView->onRender");
+    context.beginPath();
+    context.fillStyle = 'black';
+    context.lineWidth = 2;
+
+    var x = itemView.model.get('x');
+    var y = itemView.model.get('y');
+    _.each(itemView.model.get('edges'), function(edge) {
+      context.moveTo(x, y);
+      context.lineTo(edge.get('x'), edge.get('y'));
+    });
+
+    context.stroke();
+
+    context.drawImage(itemView.el, 0, 0); // draw relative to origin
   },
 
   onBeforeItemAdded: function(itemView) {
@@ -47,16 +57,17 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
 
   events: {
     'click button': 'addVertex',
-    'click canvas': 'selectVertex'
+    'click canvas': 'detectVertexHit'
   },
 
-  selectVertex: function(e) {
+  detectVertexHit: function(e) {
     console.log("EVENT->CanvasView->selectVertex");
     var bounds = $('canvas').get(0).getBoundingClientRect()
     var client_x = e.clientX - bounds.left;
     var client_y = e.clientY - bounds.top;
 
-    var vertex = this.children.find(function(itemView) {
+    // find the vertex that is being clicked
+    var vertex_view = this.children.find(function(itemView) {
       var x = itemView.model.get('x');
       var y = itemView.model.get('y');
       var x_leg = Math.pow(x - client_x, 2);
@@ -65,7 +76,27 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
 
       return d < itemView.radius;
     });
+
+    if (vertex_view) {
+      this.selectVertex(vertex_view.model);
+      this.updateVertex(vertex_view);
+    }
   },
+
+  updateVertex: function(vertex_view) {
+    vertex_view.render();
+
+    var context = this.$('canvas').get(0).getContext('2d');
+    context.fillStyle = 'black';
+    context.drawImage(vertex_view.el, 0, 0); // draw relative to origin
+  },
+
+  selectVertex: function(vertex) {
+    console.log(vertex);
+    var current_color = vertex.get('color');
+    vertex.set('color', this.color_wheel.next(current_color));
+  },
+
   // TODO NEXTSTEP now we need a way to add to the "end" of the
   // graph... a "current node"
   addVertex: function(e) {

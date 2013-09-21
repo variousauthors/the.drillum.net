@@ -75,4 +75,5 @@ MyApp.Models.Graph = Backbone.Collection.extend({
       vertex.clearMark();
     })
   }
+
 })
