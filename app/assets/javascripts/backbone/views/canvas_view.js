@@ -3,6 +3,12 @@
 
 // TODO this is really a GraphView mixed with a CanvasView
 // needs to split them out
+// TODO the colorwheel stuff is in here because that's convenient (for
+// the purposes of event listening). I think that Color is really a property
+// of the Graph though, so I will have to figure out how to make backbone models
+// do this.
+// Hmm... unless! We think of Marionette Views as controllers (which they are) in
+// which case this may be ok. Think, Ziggy, think.
 MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   template: 'backbone/templates/canvas_view',
   className: 'canvas-container',
@@ -23,7 +29,6 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
     var context = collectionView.$('canvas').get(0).getContext('2d');
     context.fillStyle = 'black';
     context.drawImage(itemView.el, 0, 0); // draw relative to origin
-    console.log("out CanvasView->appendHtml");
   },
 
   onRender: function() {
@@ -33,7 +38,7 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   onBeforeItemAdded: function(itemView) {
     console.log("CanvasView->onAfterItemAdded");
     this.color_wheel.increment();
-    itemView.model.set('color', this.color_wheel.color()); // returns a random color
+    itemView.model.set('color', this.color_wheel.sample()); // returns a random color
   },
 
   onItemRemoved: function() {

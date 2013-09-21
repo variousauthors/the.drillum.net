@@ -14,7 +14,6 @@ var COLORS = {
   Azure: 'Azure',
   Beige: 'Beige',
   Bisque: 'Bisque',
-  Black: 'Black',
   BlanchedAlmond: 'BlanchedAlmond',
   Blue: 'Blue',
   BlueViolet: 'BlueViolet',
