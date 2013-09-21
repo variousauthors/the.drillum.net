@@ -46,9 +46,26 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   },
 
   events: {
-    'click button': 'addVertex'
+    'click button': 'addVertex',
+    'click canvas': 'selectVertex'
   },
 
+  selectVertex: function(e) {
+    console.log("EVENT->CanvasView->selectVertex");
+    var bounds = $('canvas').get(0).getBoundingClientRect()
+    var client_x = e.clientX - bounds.left;
+    var client_y = e.clientY - bounds.top;
+
+    var vertex = this.children.find(function(itemView) {
+      var x = itemView.model.get('x');
+      var y = itemView.model.get('y');
+      var x_leg = Math.pow(x - client_x, 2);
+      var y_leg = Math.pow(y - client_y, 2);
+      var d = Math.sqrt(x_leg + y_leg);
+
+      return d < itemView.radius;
+    });
+  },
   // TODO NEXTSTEP now we need a way to add to the "end" of the
   // graph... a "current node"
   addVertex: function(e) {
