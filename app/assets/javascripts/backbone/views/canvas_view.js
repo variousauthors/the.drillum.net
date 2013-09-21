@@ -24,6 +24,37 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
     console.log("CanvasView->initialize");
   },
 
+
+  // Renders the model once, and the collection once. Calling
+  // this again will tell the model's view to re-render itself
+  // but the collection will not re-render.
+  render: function(){
+    this.isRendered = true;
+    this.isClosed = false;
+    this.resetItemViewContainer();
+
+    this.triggerBeforeRender();
+    var html = this.renderModel();
+    this.$el.html(html);
+    this.draw(); // draw the elements specific to the composite
+    // the ui bindings is done here and not at the end of render since they
+    // will not be available until after the model is rendered, but should be
+    // available before the collection is rendered.
+    this.bindUIElements();
+    this.triggerMethod("composite:model:rendered");
+
+    this._renderChildren();
+
+    this.triggerMethod("composite:rendered");
+    this.triggerRendered();
+    return this;
+  },
+
+  draw: function() {
+    var context = this.$('canvas').get(0).getContext('2d');
+    context.clearRect(0, 0, this.width, this.height);
+  },
+
   appendHtml: function(collectionView, itemView) {
     console.log("CanvasView->appendHtml");
     var context = collectionView.$('canvas').get(0).getContext('2d');
