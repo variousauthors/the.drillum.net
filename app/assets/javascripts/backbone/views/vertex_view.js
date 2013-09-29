@@ -8,6 +8,8 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   },
 
   radius: 10,
+  width: 500,
+  height:500,
 
   onRender: function(){
     console.log("VertexView->onRender");
@@ -19,17 +21,33 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   draw: function(data) {
     console.log("VertexView->draw");
     var context = this.el.getContext('2d');
-    var rect = this.boundingRect();
 
-    // clear the border
+    this.clearCanvas(context);
+    this.draw_edges(data, context);
+    this.draw_vertex(data, context);
+  },
+
+  clearCanvas: function(context) {
+    console.log("VertexView->_clearCanvas");
+    context.clearRect(0, 0, this.width, this.height);
+  },
+
+  draw_edges: function(data, context) {
+    context.fillStyle = 'black';
+
     context.beginPath();
-    context.lineWidth = 3;
-    context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);
-    context.clip();
-    context.clearRect(rect.x, rect.y, rect.width + 1, rect.height + 1);
-    context.restore();
+    context.fillStyle = 'black';
+    context.lineWidth = 2;
 
-    // draw the vertex
+    _.each(data.edges, function(edge) {
+      context.moveTo(data.x, data.y);
+      context.lineTo(edge.get('x'), edge.get('y'));
+    });
+
+    context.stroke();
+  },
+
+  draw_vertex: function(data, context) {
     context.beginPath();
     context.lineWidth = 3;
     context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);

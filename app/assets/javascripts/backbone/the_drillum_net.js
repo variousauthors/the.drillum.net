@@ -18,11 +18,11 @@ MyApp.addRegions({
 /* setup the Canvas view with graph */
 MyApp.addInitializer(function(options) {
   console.log("== MyApp-->initializer ==");
-  var canvas_view = new MyApp.Views.CanvasView({
+  var graph_view = new MyApp.Views.GraphView({
     collection: options.graph
   });
 
-  MyApp.mainRegion.show(canvas_view);
+  MyApp.mainRegion.show(graph_view);
 });
 
 $(document).ready(function() {

@@ -1,56 +1,46 @@
 //= require ./vertex_view
 //= require ./../models/color_wheel
 
-// TODO this is really a GraphView mixed with a CanvasView
-// needs to split them out
-// TODO the colorwheel stuff is in here because that's convenient (for
-// the purposes of event listening). I think that Color is really a property
-// of the Graph though, so I will have to figure out how to make backbone models
-// do this.
-// Hmm... unless! We think of Marionette Views as controllers (which they are) in
-// which case this may be ok. Think, Ziggy, think.
+/* CanvasView
+ *
+ * The CanvasView is responsible for clearing and drawing the canvas
+ * on render.
+ * */
 MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   template: 'backbone/templates/canvas_view',
   className: 'canvas-container',
-  itemView: MyApp.Views.VertexView,
   height: 500,
   width: 500,
-  color_wheel: {},
-
-  initialize: function() {
-    var self = this;
-    this.color_wheel = new MyApp.Models.ColorWheel({ length: 0 });
-    this.color_wheel.setup();
-    console.log("CanvasView->initialize");
-  },
-
 
   // Renders the model once, and the collection once. Calling
   // this again will tell the model's view to re-render itself
   // but the collection will not re-render.
   render: function(){
+    console.log("CanvasView->render");
     this.isRendered = true;
     this.isClosed = false;
     this.resetItemViewContainer();
 
     this.triggerBeforeRender();
     var html = this.renderModel();
-    this.$el.html(html);
-    this.draw(); // draw the elements specific to the composite
+    this.$el.html(html); // create the Canvas HTML element
+    this._clearCanvas(); // clear the canvas for drawing
+
     // the ui bindings is done here and not at the end of render since they
     // will not be available until after the model is rendered, but should be
     // available before the collection is rendered.
     this.bindUIElements();
     this.triggerMethod("composite:model:rendered");
 
-    this._renderChildren();
+    this._renderChildren(); // do the rendering work for each child
 
     this.triggerMethod("composite:rendered");
     this.triggerRendered();
     return this;
   },
 
-  draw: function() {
+  _clearCanvas: function() {
+    console.log("CanvasView->_clearCanvas");
     var context = this.$('canvas').get(0).getContext('2d');
     context.clearRect(0, 0, this.width, this.height);
   },
@@ -58,87 +48,20 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   appendHtml: function(collectionView, itemView) {
     console.log("CanvasView->appendHtml");
     var context = collectionView.$('canvas').get(0).getContext('2d');
-    context.fillStyle = 'black';
 
-    context.beginPath();
-    context.fillStyle = 'black';
-    context.lineWidth = 2;
-
-    var x = itemView.model.get('x');
-    var y = itemView.model.get('y');
-    _.each(itemView.model.get('edges'), function(edge) {
-      context.moveTo(x, y);
-      context.lineTo(edge.get('x'), edge.get('y'));
-    });
-
-    context.stroke();
-
+    // at this point each itemview has already rendered onto its el
     context.drawImage(itemView.el, 0, 0); // draw relative to origin
   },
 
-  onBeforeItemAdded: function(itemView) {
-    console.log("CanvasView->onAfterItemAdded");
-    this.color_wheel.increment();
-    itemView.model.set('color', this.color_wheel.sample()); // returns a random color
-  },
-
-  onItemRemoved: function() {
-    console.log("CanvasView->onItemRemoved");
-  },
-
-  events: {
-    'click button': 'addVertex',
-    'click canvas': 'detectVertexHit'
-  },
-
-  detectVertexHit: function(e) {
-    console.log("EVENT->CanvasView->selectVertex");
-    var bounds = $('canvas').get(0).getBoundingClientRect()
-    var client_x = e.clientX - bounds.left;
-    var client_y = e.clientY - bounds.top;
-
-    // find the vertex that is being clicked
-    var vertex_view = this.children.find(function(itemView) {
-      var x = itemView.model.get('x');
-      var y = itemView.model.get('y');
-      var x_leg = Math.pow(x - client_x, 2);
-      var y_leg = Math.pow(y - client_y, 2);
-      var d = Math.sqrt(x_leg + y_leg);
-
-      return d < itemView.radius;
-    });
-
-    if (vertex_view) {
-      this.selectVertex(vertex_view.model);
-      this.updateVertex(vertex_view);
-    }
-  },
-
-  updateVertex: function(vertex_view) {
-    vertex_view.render();
+  draw: function() {
+    console.log("CanvasView->draw");
+    this._clearCanvas();
 
     var context = this.$('canvas').get(0).getContext('2d');
-    context.fillStyle = 'black';
-    context.drawImage(vertex_view.el, 0, 0); // draw relative to origin
-  },
-
-  selectVertex: function(vertex) {
-    console.log(vertex);
-    var current_color = vertex.get('color');
-    vertex.set('color', this.color_wheel.next(current_color));
-  },
-
-  // TODO NEXTSTEP now we need a way to add to the "end" of the
-  // graph... a "current node"
-  addVertex: function(e) {
-    console.log("CanvasView->addVertex");
-    // coordinates from 10 to 490
-    var max_x = this.width - 10;
-    var max_y = this.height - 10;
-    var min_x = 10;
-    var min_y = 10;
-    var x = Math.random() * (max_x - min_x) + min_x;
-    var y = Math.random() * (max_y - min_y) + min_y;
-    this.collection.add(new MyApp.Models.Vertex({ 'x': x, 'y': y}));
+    this.children.each(function(itemView) {
+      console.log(itemView);
+      context.drawImage(itemView.el, 0, 0); // draw relative to origin
+    });
   }
+
 });
