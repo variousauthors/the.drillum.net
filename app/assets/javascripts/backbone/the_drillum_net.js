@@ -17,12 +17,20 @@ MyApp.addRegions({
 
 /* setup the Canvas view with graph */
 MyApp.addInitializer(function(options) {
+  var masterDetailLayout = new MyApp.Views.MasterDetailLayout();
+
+  MyApp.mainRegion.show(masterDetailLayout);
+
   console.log("== MyApp-->initializer ==");
   var graph_view = new MyApp.Views.GraphView({
     collection: options.graph
   });
 
-  MyApp.mainRegion.show(graph_view);
+  // var passage_view = new MyApp.Views.PassageView();
+
+  masterDetailLayout.master.show(graph_view);
+  // SOON
+  // masterDetailLayout.detail.show(passage_view);
 });
 
 $(document).ready(function() {
@@ -42,6 +50,11 @@ $(document).ready(function() {
     new MyApp.Models.Vertex({x:10, y:75}),
     new MyApp.Models.Vertex({x:90, y:150})
   ]});
+
+//SOON
+//A.set('passage', new MyApp.Models.Passage({ text: "Bob" }));
+//B.set('passage', new MyApp.Models.Passage({ text: "is" }));
+//C.set('passage', new MyApp.Models.Passage({ text: "grumpy" }));
 
   /* we could also say Graph([A, B, C, D, E]),
   * and redundant edges would not be included
