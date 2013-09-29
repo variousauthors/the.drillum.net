@@ -14,6 +14,11 @@
 *     A.addVertex(B)
 *      .addvertex(C);
 *
+* TODO currently loops aren't handled properly:
+*  they render the vertex twice
+*  they don't render a loopy looking edge
+*  So I am making these loop free (which is what I need anyway)
+*
 * */
 MyApp.Models.Vertex = Backbone.Model.extend({
   defaults: {
@@ -23,27 +28,51 @@ MyApp.Models.Vertex = Backbone.Model.extend({
     'edges': [],
   },
 
+  constructor: function() {
+    console.log("Vertex->constructor");
+    // uniq the param set
+    var params = arguments[0];
+
+    if (params['x'] == undefined) return undefined;
+    if (params['y'] == undefined) return undefined;
+
+    // we will need x and y for _uniq
+    this.x = params['x'];
+    this.y = params['y'];
+
+    params['edges'] = this._uniq(params['edges']);
+
+    Backbone.Model.apply(this, arguments);
+  },
+
   initialize: function(params) {
     console.log("Vertex->initialize");
 
     this._marked = false;
-
     var self = this;
-    _.inject(params['edges'], function(memo, terminal_vertex) {
-      var unique = true; // assume the vertex is unique
+  },
 
-      _.every(memo, function(element) { // show it is not
-        unique = (element.isEqual(terminal_vertex))? false : unique;
-        return unique;
-      });
+  /* given a list of edges, returns the loop-free
+   * set of edges, in an array.
+   * @pre this.x and this.y are defined
+   * @return [] if edges is undefined */
+  _uniq: function(edges) {
+    if (edges == undefined) return [];
+    if (this.x == undefined) return undefined;
+    if (this.y == undefined) return undefined;
 
-      if (unique) {
-        self.addEdge(terminal_vertex);
-      }
+    var point_set = {};
+    var local_origin = this.x + ', ' + this.y;
+    point_set[local_origin] = false;
 
-      memo.push(terminal_vertex);
-      return memo;
-    }, []);
+    _.each(edges, function(edge) {
+      var point = '' + edge.get('x') + ', ' + edge.get('y');
+      point_set[point] = edge;
+    });
+
+    delete point_set[local_origin];
+
+    return _.values(point_set);
   },
 
   setMark: function() {
@@ -74,7 +103,9 @@ MyApp.Models.Vertex = Backbone.Model.extend({
   /* add an edge to the edge list with idempotence
   *  @param A Vertex */
   addEdge: function(terminal_vertex) {
-    console.log("vertex-->addEdge");
+    console.log("Vertex-->addEdge");
+    if (this.isEqual(terminal_vertex)) return this; // loop: should handle this later
+
     // edges must be unique per Vertex
     var duplicate = _.any(this.getNeighbours(), function(vertex) {
       return vertex.isEqual(terminal_vertex);
