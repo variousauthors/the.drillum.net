@@ -93,11 +93,9 @@ MyApp.Models.Vertex = Backbone.Model.extend({
 
   isEqual: function(b) {
     var a = this;
-    if (a.get('x') === b.get('x') && a.get('y') === b.get('y')) {
-      return true;
-    } else {
-      return false;
-    }
+    var equal = (a.get('x') === b.get('x') && a.get('y') === b.get('y'))
+
+    return equal;
   },
 
   /* add an edge to the edge list with idempotence
