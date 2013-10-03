@@ -14,10 +14,11 @@ group :production do
   gem 'google-analytics-rails'
 end
 
-gem 'marionette-rails'
 gem 'turbolinks'
 gem "jquery-rails"
+gem 'marionette-rails'
 gem 'rails-backbone'
+gem 'handlebars_assets'
 gem 'uglifier'
 gem 'pg'
 gem 'heroku'

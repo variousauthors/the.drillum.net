@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require underscore
 //= require backbone
+//= require handlebars
 //= require backbone.marionette
 //= require backbone_rails_sync
 //= require backbone_datalink
