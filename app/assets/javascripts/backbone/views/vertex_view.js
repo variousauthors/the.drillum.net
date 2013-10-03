@@ -18,6 +18,12 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     this.draw(data); // my code
   },
 
+  /* fire the relevant event */
+  select: function() {
+    console.log('VertexView->select');
+    this.model.trigger('selected', this.model);
+  },
+
   draw: function(data) {
     console.log("VertexView->draw");
     var context = this.el.getContext('2d');

@@ -26,11 +26,14 @@ MyApp.addInitializer(function(options) {
     collection: options.graph
   });
 
-  // var passage_view = new MyApp.Views.PassageView();
+  var passage_view = new MyApp.Views.PassageView();
 
   masterDetailLayout.master.show(graph_view);
-  // SOON
-  // masterDetailLayout.detail.show(passage_view);
+  masterDetailLayout.detail.show(passage_view);
+});
+
+MyApp.vent.on('graph:selected', function() {
+  console.log('== bubble max ==');
 });
 
 $(document).ready(function() {

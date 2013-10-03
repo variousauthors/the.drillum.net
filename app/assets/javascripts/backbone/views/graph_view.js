@@ -20,6 +20,12 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
     var self = this;
     this.color_wheel = new MyApp.Models.ColorWheel({ length: 0 });
     this.color_wheel.setup();
+    this.listenTo(this.collection, 'selected', this.wat);
+  },
+
+  wat: function(model) {
+    console.log("EVENT  WAT");
+    this.trigger('graph:selected', model);
   },
 
   /* the vertices are initially all coloured the same. They receive
@@ -37,7 +43,7 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
   /* map browser events to application logic */
   events: {
     'click button': 'addVertex',
-    'click canvas': 'detectVertexHit'
+    'click canvas': 'detectVertexHit',
   },
 
   /* detect a click inside any vertex. This has nothing to do with
@@ -61,7 +67,7 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
     });
 
     if (vertex_view) {
-      this.selectVertex(vertex_view.model);
+      this.selectVertex(vertex_view, vertex_view.model);
       this.updateVertex(vertex_view);
       this.draw(); // redraw the canvas without rerendering the collection
     }
@@ -72,12 +78,13 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
     vertex_view.render();
   },
 
-  /* change the vertex's colour to the next colour in the wheel */
-  selectVertex: function(vertex) {
+  /* change the vertex's colour to the next colour in the wheel
+   * and select the vertex */
+  selectVertex: function(view, model) {
     console.log("GraphView->selectVertex");
-    console.log(vertex);
-    var current_color = vertex.get('color');
-    vertex.set('color', this.color_wheel.next(current_color));
+    var current_color = model.get('color');
+    model.set('color', this.color_wheel.next(current_color));
+    view.select();
   },
 
   // TODO NEXTSTEP now we need a way to add to the "end" of the
