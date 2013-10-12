@@ -38,7 +38,7 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     var context = this.el.getContext('2d');
 
     this.clearCanvas(context);
-    this.draw_edges(data, context);
+//    this.draw_edges(data, context);
     this.draw_vertex(data, context);
   },
 

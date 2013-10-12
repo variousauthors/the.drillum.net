@@ -71,6 +71,37 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
     }
   },
 
+  /* override draw function to draw edges first */
+  /* TODO: this solved the problem, but now lines are
+  * very un-antialiases for some reason. See also graph.walk */
+  draw: function() {
+    console.log("GraphView->draw");
+    this._clearCanvas();
+
+    var context = this.$('canvas').get(0).getContext('2d');
+
+    context.save();
+    context.beginPath();
+    context.lineWidth = 2;
+
+    _.each(this.collection.getEdges(), function(edge) {
+      var start = edge[0];
+      var end = edge[1];
+
+      context.moveTo(start.x, start.y);
+      context.lineTo(end.x, end.y);
+
+      context.stroke();
+    });
+
+    context.closePath();
+    context.restore();
+
+    this.children.each(function(itemView) {
+      context.drawImage(itemView.el, 0, 0); // draw relative to origin
+    });
+  },
+
   /* change the vertex's colour to the next colour in the wheel
    * and select the vertex */
   selectVertex: function(vertex_view) {
