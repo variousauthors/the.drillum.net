@@ -29,7 +29,7 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     this.selected = isSelected;
   },
 
-  getSelected: function () {
+  isSelected: function () {
     return this.selected;
   },
 
@@ -69,7 +69,7 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     context.save();
     context.beginPath();
 
-    if (this.getSelected()) {
+    if (this.isSelected()) {
       context.strokeStyle = 'gold';
     }
 

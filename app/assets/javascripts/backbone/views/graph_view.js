@@ -34,7 +34,7 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
   /* the vertices are initially all coloured the same. They receive
   *  a colour when the application requires it. */
   onBeforeItemAdded: function(itemView) {
-    console.log("GraphView->onAfterItemAdded");
+    console.log("GraphView->onBeforeItemAdded");
     this.color_wheel.increment();
     itemView.model.set('color', this.color_wheel.sample()); // returns a random color
   },
@@ -67,7 +67,6 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
 
     if (vertex_view) {
       this.selectVertex(vertex_view);
-      this.renderChildView(vertex_view);
       this.draw(); // redraw the canvas without rerendering the collection
     }
   },
@@ -77,19 +76,19 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
   selectVertex: function(vertex_view) {
     console.log("GraphView->selectVertex");
 
-    /* change the selected vertex */
-    this.setSelectedVertex(vertex_view);
-
     /* colour logic is handled by the graph view */
     var model = vertex_view.model;
     var current_color = model.get('color');
     model.set('color', this.color_wheel.next(current_color));
 
+    /* change the selected vertex */
+    this.renderSelectedVertex(vertex_view);
+
     /* some other logic is handled by the vertex view */
     vertex_view.select();
   },
 
-  setSelectedVertex: function (vertex_view) {
+  renderSelectedVertex: function (vertex_view) {
     if (this.selected_vertex === vertex_view) return;
 
     if (this.selected_vertex) {
@@ -99,19 +98,33 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
 
     this.selected_vertex = vertex_view;
     this.selected_vertex.setSelected(true);
+    this.renderChildView(vertex_view);
   },
 
-  // TODO NEXTSTEP now we need a way to add to the "end" of the
-  // graph... a "current node"
+  /* TODO this is quick and dirty: it gives a roughly hourglass
+  * shaped distribution of tiny circles */
   addVertex: function(e) {
     console.log("GraphView->addVertex");
-    // coordinates from 10 to 490
-    var max_x = this.width - 10;
-    var max_y = this.height - 10;
-    var min_x = 10;
-    var min_y = 10;
-    var x = Math.random() * (max_x - min_x) + min_x;
-    var y = Math.random() * (max_y - min_y) + min_y;
-    this.collection.add(new MyApp.Models.Vertex({ 'x': x, 'y': y}));
+    // set the origin to the currently selected vertex
+    var origin_x = this.selected_vertex.model.get('x');
+    var origin_y = this.selected_vertex.model.get('y');
+
+    var offset_x = Math.random() * 250 - 125;
+    var offset_y = Math.floor(Math.sqrt(125*125 - offset_x*offset_x));
+    if (Math.round(Math.random())) {
+      offset_y *= -1;
+    }
+
+    var x = origin_x + offset_x;
+    var y = origin_y + offset_y;
+
+    // attach the new vert to the current one
+    var new_vertex = new MyApp.Models.Vertex({ 'x': x, 'y': y, 'edges': [ this.selected_vertex.model ]});
+    this.collection.add(new_vertex);
+
+    // retrieve a view for the new_vertext and set it as selected
+    var new_view = this.children.findByModel(new_vertex);
+    this.selectVertex(new_view);
+    this.draw(); // redraw the canvas without rerendering the collection
   }
 });
