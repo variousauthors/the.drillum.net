@@ -77,6 +77,9 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
   selectVertex: function(vertex_view) {
     console.log("GraphView->selectVertex");
 
+    /* change the selected vertex */
+    this.setSelectedVertex(vertex_view);
+
     /* colour logic is handled by the graph view */
     var model = vertex_view.model;
     var current_color = model.get('color');
@@ -84,6 +87,18 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
 
     /* some other logic is handled by the vertex view */
     vertex_view.select();
+  },
+
+  setSelectedVertex: function (vertex_view) {
+    if (this.selected_vertex === vertex_view) return;
+
+    if (this.selected_vertex) {
+      this.selected_vertex.setSelected(false);
+      this.renderChildView(this.selected_vertex);
+    }
+
+    this.selected_vertex = vertex_view;
+    this.selected_vertex.setSelected(true);
   },
 
   // TODO NEXTSTEP now we need a way to add to the "end" of the

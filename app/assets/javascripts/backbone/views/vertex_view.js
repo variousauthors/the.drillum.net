@@ -22,8 +22,15 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   select: function() {
     console.log('VertexView->select');
 
-    console.log(this.model);
     this.trigger('selected', this.model);
+  },
+
+  setSelected: function (isSelected) {
+    this.selected = isSelected;
+  },
+
+  getSelected: function () {
+    return this.selected;
   },
 
   draw: function(data) {
@@ -40,10 +47,10 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   },
 
   draw_edges: function(data, context) {
-    context.fillStyle = 'black';
-
+    console.log("VertexView->draw_edges");
+    context.save();
     context.beginPath();
-    context.fillStyle = 'black';
+
     context.lineWidth = 2;
 
     _.each(data.edges, function(edge) {
@@ -52,16 +59,30 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
     });
 
     context.stroke();
+
+    context.closePath();
+    context.restore();
   },
 
   draw_vertex: function(data, context) {
+    console.log("VertexView->draw_vertex");
+    context.save();
     context.beginPath();
-    context.lineWidth = 3;
+
+    if (this.getSelected()) {
+      context.strokeStyle = 'gold';
+    }
+
+    /* thick outline */
+    context.lineWidth = 6;
     context.arc(data.x, data.y, this.radius, 0, 2 * Math.PI);
+    context.stroke();
+
     context.fillStyle = data.color;
     context.fill();
 
-    context.stroke();
+    context.closePath();
+    context.restore();
   },
 
   boundingRect: function() {
