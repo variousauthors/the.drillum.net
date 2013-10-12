@@ -13,18 +13,21 @@
  */
 MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
   itemView: MyApp.Views.VertexView,
+  itemViewEventPrefix: 'vertex',
   color_wheel: {},
 
   initialize: function() {
     console.log("GraphView->initialize");
-    var self = this;
+
     this.color_wheel = new MyApp.Models.ColorWheel({ length: 0 });
     this.color_wheel.setup();
-    this.listenTo(this.collection, 'selected', this.wat);
+    this.listenTo(this.collection, 'vertex:selected', this.onVertexSelected);
   },
 
-  wat: function(model) {
-    console.log("EVENT  WAT");
+  /* fires after a vertex view has processed an incoming click */
+  onVertexSelected: function(view, model) {
+    console.log("EVENT  GraphView->onVertexSelected");
+
     this.trigger('graph:selected', model);
   },
 
@@ -34,10 +37,6 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
     console.log("GraphView->onAfterItemAdded");
     this.color_wheel.increment();
     itemView.model.set('color', this.color_wheel.sample()); // returns a random color
-  },
-
-  onItemRemoved: function() {
-    console.log("GraphView->onItemRemoved");
   },
 
   /* map browser events to application logic */
@@ -67,24 +66,24 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
     });
 
     if (vertex_view) {
-      this.selectVertex(vertex_view, vertex_view.model);
-      this.updateVertex(vertex_view);
+      this.selectVertex(vertex_view);
+      this.renderChildView(vertex_view);
       this.draw(); // redraw the canvas without rerendering the collection
     }
   },
 
-  updateVertex: function(vertex_view) {
-    console.log("GraphView->updateVertex");
-    vertex_view.render();
-  },
-
   /* change the vertex's colour to the next colour in the wheel
    * and select the vertex */
-  selectVertex: function(view, model) {
+  selectVertex: function(vertex_view) {
     console.log("GraphView->selectVertex");
+
+    /* colour logic is handled by the graph view */
+    var model = vertex_view.model;
     var current_color = model.get('color');
     model.set('color', this.color_wheel.next(current_color));
-    view.select();
+
+    /* some other logic is handled by the vertex view */
+    vertex_view.select();
   },
 
   // TODO NEXTSTEP now we need a way to add to the "end" of the

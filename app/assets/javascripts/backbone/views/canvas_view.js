@@ -40,9 +40,13 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
   },
 
   _clearCanvas: function() {
-    console.log("CanvasView->_clearCanvas");
     var context = this.$('canvas').get(0).getContext('2d');
     context.clearRect(0, 0, this.width, this.height);
+  },
+
+  renderChildView: function(view) {
+    console.log("CanvasView->renderChildView");
+    view.render();
   },
 
   appendHtml: function(collectionView, itemView) {
@@ -59,7 +63,6 @@ MyApp.Views.CanvasView = Backbone.Marionette.CompositeView.extend({
 
     var context = this.$('canvas').get(0).getContext('2d');
     this.children.each(function(itemView) {
-      console.log(itemView);
       context.drawImage(itemView.el, 0, 0); // draw relative to origin
     });
   }

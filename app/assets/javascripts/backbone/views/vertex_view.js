@@ -21,7 +21,9 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   /* fire the relevant event */
   select: function() {
     console.log('VertexView->select');
-    this.model.trigger('selected', this.model);
+
+    console.log(this.model);
+    this.trigger('selected', this.model);
   },
 
   draw: function(data) {
@@ -34,7 +36,6 @@ MyApp.Views.VertexView = Backbone.Marionette.ItemView.extend({
   },
 
   clearCanvas: function(context) {
-    console.log("VertexView->_clearCanvas");
     context.clearRect(0, 0, this.width, this.height);
   },
 
