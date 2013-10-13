@@ -1,5 +1,6 @@
 //= require ./vertex_view
 //= require ./../models/color_wheel
+//= require ./../models/collision_grid
 //= require ./canvas_view
 
 /* GraphView
@@ -19,6 +20,10 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
   initialize: function() {
     console.log("GraphView->initialize");
 
+    /* the collision grid is used to prevent overlap of vertices */
+    this.grid = new MyApp.Models.CollisionGrid({ size: 100, step: 100 }); // setup a grid of 100 cells each 100 units on a side
+
+    /* the color wheel colors the vertices */
     this.color_wheel = new MyApp.Models.ColorWheel({ length: 0 });
     this.color_wheel.setup();
     this.listenTo(this.collection, 'vertex:selected', this.onVertexSelected);
@@ -136,6 +141,32 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
   * shaped distribution of tiny circles */
   addVertex: function(e) {
     console.log("GraphView->addVertex");
+
+    var data = this.selected_vertex.model.toJSON();
+    var origin = { x: data.x, y: data.y };
+
+    /* the code I wish I had */
+    this.grid.startTransaction(); // start trying to add a node
+    var new_coords = this.grid.add(origin); // try to add a new vertex to the grid
+
+    // get all the grid spots on a line between the origin and the new coord
+    var line = this.grid.getLine(origin, new_coords, { inclusive: false }); // => returns an array of bool [free, taken, free] etc...
+
+    while (line.length > 0) {
+      new_coords = grid.add(origin); // while in a transaction this means 'continue'
+      line = this.grid.getLine(origin, new_coords, { inclusive: false });
+    }
+
+    // post: we should now have a clear line between the original vertex and a free spot in the grid
+    this.grid.commit(); // end the transaction
+
+    /* // code I really wish I had
+     * new_coords = grid.jigger(new_coords); // returns a new coord set that is equivalent to the old one, mod the grid's step
+     * // this way verts will not look like they are on a grid, but they will resolve like they are
+    * */
+
+    /* how it is now */
+
     // set the origin to the currently selected vertex
     var origin_x = this.selected_vertex.model.get('x');
     var origin_y = this.selected_vertex.model.get('y');
@@ -148,6 +179,20 @@ MyApp.Views.GraphView = MyApp.Views.CanvasView.extend({
 
     var x = origin_x + offset_x;
     var y = origin_y + offset_y;
+
+    /* collision detection */
+    /* ensure the vertices are within the canvas */
+    // if the new vertex would be outside of the canvas
+    // recalculate (this is more fun then colliding with the canvas edge)
+
+    /* ensure the vertices do not overlap */
+    // if the new vertex would overlap an existing vertex
+    // determine a line between the centers of the new vertex and the colliding vertex
+    // the away direction is always clockwise
+    // creep the new vertex away from the current one
+    // recalculate the center of the new vertex so that it is at least 10 px away
+    // check again for collision
+
 
     // attach the new vert to the current one
     var new_vertex = new MyApp.Models.Vertex({ 'x': x, 'y': y, 'edges': [ this.selected_vertex.model ]});
